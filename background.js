@@ -75,7 +75,7 @@ async function loadDefaultCards() {
       id: generateId(),
       correctCount: 0,
       incorrectCount: 0,
-      streak: 0,
+      repetitions: 0,
       lastReviewed: null,
       nextReview: Date.now(),
       interval: 1, // in days
@@ -141,11 +141,13 @@ async function showNextCard() {
  * @returns {object} The selected card.
  */
 function selectCardBySpacedRepetition(cardsToReview) {
-  const now = Date.now();
   cardsToReview.sort((a, b) => {
-    const scoreA = (now - (a.nextReview || 0)) * (1 + (a.incorrectCount || 0) / ((a.correctCount || 0) + 1));
-    const scoreB = (now - (b.nextReview || 0)) * (1 + (b.incorrectCount || 0) / ((b.correctCount || 0) + 1));
-    return scoreB - scoreA;
+    const nextA = a.nextReview || 0;
+    const nextB = b.nextReview || 0;
+    if (nextA !== nextB) return nextA - nextB;
+    const errorA = (a.incorrectCount || 0) / ((a.correctCount || 0) + 1);
+    const errorB = (b.incorrectCount || 0) / ((b.correctCount || 0) + 1);
+    return errorB - errorA;
   });
   return cardsToReview[0];
 }
@@ -159,35 +161,39 @@ function selectCardBySpacedRepetition(cardsToReview) {
 async function updateCardStats(cardId, isCorrect) {
   const { cards } = await chrome.storage.local.get(['cards']);
   if (!cards) return;
-  
+
   const cardIndex = cards.findIndex(c => c.id.toString() === cardId.toString());
   if (cardIndex === -1) return;
 
   const card = cards[cardIndex];
   card.lastReviewed = Date.now();
 
+  const quality = isCorrect ? 5 : 2; // Simplified quality rating
+  card.easeFactor = Math.max(
+    1.3,
+    (card.easeFactor || 2.5) + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
+  );
+
   if (isCorrect) {
     card.correctCount = (card.correctCount || 0) + 1;
-    card.streak = (card.streak || 0) + 1;
-    card.easeFactor = (card.easeFactor || 2.5) + 0.1;
-    
-    if (card.streak === 1) {
+    card.repetitions = (card.repetitions || 0) + 1;
+
+    if (card.repetitions === 1) {
       card.interval = 1; // 1 day
-    } else if (card.streak === 2) {
+    } else if (card.repetitions === 2) {
       card.interval = 6; // 6 days
     } else {
       card.interval = Math.ceil((card.interval || 1) * card.easeFactor);
     }
+
     card.nextReview = Date.now() + card.interval * 24 * 60 * 60 * 1000;
   } else {
     card.incorrectCount = (card.incorrectCount || 0) + 1;
-    card.streak = 0; // Reset streak
-    card.easeFactor = Math.max(1.3, (card.easeFactor || 2.5) - 0.2);
-    card.interval = 1; // Reset interval
-    // Show again soon for re-learning
-    card.nextReview = Date.now() + 10 * 60 * 1000; // 10 minutes
+    card.repetitions = 0; // Reset repetitions on failure
+    card.interval = 1;
+    card.nextReview = Date.now() + 10 * 60 * 1000; // Review again in 10 minutes
   }
-  
+
   cards[cardIndex] = card;
   await chrome.storage.local.set({ cards });
 }
