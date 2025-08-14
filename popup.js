@@ -91,7 +91,7 @@ async function handleAddCard(e) {
     category: category || 'Geral',
     correctCount: 0,
     incorrectCount: 0,
-    streak: 0,
+    repetitions: 0,
     lastReviewed: null,
     nextReview: Date.now(),
     interval: 1,
@@ -274,7 +274,7 @@ async function updateStats() {
   const { cards = [] } = await chrome.storage.local.get('cards');
   const total = cards.length;
   const pending = cards.filter(card => !card.nextReview || card.nextReview <= Date.now()).length;
-  const mastered = cards.filter(card => (card.streak || 0) >= 10).length; // Mastered after 10 correct in a row
+  const mastered = cards.filter(card => (card.repetitions || 0) >= 10).length; // Mastered after 10 correct in a row
   
   document.getElementById('total-cards').textContent = total;
   document.getElementById('pending-cards').textContent = pending;
@@ -381,7 +381,7 @@ async function handleImportCSV(event) {
 
             const uniqueNewCards = newCardsData
                 .filter(c => !existingQuestions.has(c.question.toLowerCase().trim()))
-                .map(c => ({ ...c, id: generateId(), correctCount: 0, incorrectCount: 0, streak: 0, lastReviewed: null, nextReview: Date.now(), interval: 1, easeFactor: 2.5 }));
+                .map(c => ({ ...c, id: generateId(), correctCount: 0, incorrectCount: 0, repetitions: 0, lastReviewed: null, nextReview: Date.now(), interval: 1, easeFactor: 2.5 }));
 
             const allCards = [...existingCards, ...uniqueNewCards];
             await chrome.storage.local.set({ cards: allCards });
