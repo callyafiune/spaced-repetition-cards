@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Revisão Espaçada - Cartões de Estudo",
+  "version": "1.1",
+  "description": "Plugin de repetição espaçada com cartões de estudo, similar ao Anki, para aprimorar seus estudos.",
+  "permissions": [
+    "storage",
+    "scripting",
+    "alarms",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Configurar Cartões"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "vocabulario.csv"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

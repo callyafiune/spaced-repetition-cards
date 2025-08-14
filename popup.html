@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurar Cartões de Estudo</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="app-header">
+      <h1>Revisão Espaçada</h1>
+      <small>v1.1</small>
+    </header>
+
+    <nav class="top-nav">
+      <div class="menu">
+        <button class="menu-btn active" data-tab="add">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>
+          <span>Adicionar</span>
+        </button>
+        <button class="menu-btn" data-tab="manage">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z" clip-rule="evenodd" /></svg>
+          <span>Gerenciar</span>
+        </button>
+        <button class="menu-btn" data-tab="settings">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.078 2.25c-.217-.065-.434-.1-.652-.153a.75.75 0 00-.623.832 9.704 9.704 0 01.293 1.054.75.75 0 001.23.473l.42-1.05A.75.75 0 0011.078 2.25zM10 2a.75.75 0 01.75.75v.51a.75.75 0 01-1.5 0V2.75A.75.75 0 0110 2zM8.922 2.25c.217-.065-.434-.1-.652-.153a.75.75 0 01.623.832 9.704 9.704 0 00-.293 1.054.75.75 0 01-1.23.473l-.42-1.05A.75.75 0 018.922 2.25zM15.565 4.542a.75.75 0 01.038 1.06l-.42 1.05a.75.75 0 01-1.23-.474 9.737 9.737 0 00-.293-1.053.75.75 0 01.623-.833c.218.05.435.1.652.154a.75.75 0 011.06.038zM4.435 4.542a.75.75 0 00-.038 1.06l.42 1.05a.75.75 0 001.23-.474 9.737 9.737 0 01.293-1.053.75.75 0 00-.623-.833c-.218-.05-.435-.1-.652-.154a.75.75 0 00-1.06.038zM17.25 10a.75.75 0 01-.75.75h-.51a.75.75 0 010-1.5h.51a.75.75 0 01.75.75zM10 17a.75.75 0 01-.75-.75v-.51a.75.75 0 011.5 0v.51A.75.75 0 0110 17zM2.75 10a.75.75 0 00.75.75h.51a.75.75 0 000-1.5h-.51a.75.75 0 00-.75.75zM11.078 17.75c.217.065.434.1.652.153a.75.75 0 00.623-.832 9.704 9.704 0 01-.293-1.054.75.75 0 00-1.23-.473l-.42 1.05a.75.75 0 00.67.957zM8.922 17.75c-.217.065-.434.1-.652.153a.75.75 0 01-.623-.832 9.704 9.704 0 00.293-1.054.75.75 0 011.23-.473l.42 1.05a.75.75 0 01-.67.957zM15.565 15.458a.75.75 0 00.038-1.06l-.42-1.05a.75.75 0 00-1.23.474 9.737 9.737 0 01-.293 1.053.75.75 0 00.623.833c.218-.05.435-.1.652-.154a.75.75 0 001.06-.038zM4.435 15.458a.75.75 0 01-.038-1.06l.42-1.05a.75.75 0 011.23.474 9.737 9.737 0 00.293 1.053.75.75 0 01-.623-.833c-.218-.05-.435-.1-.652-.154a.75.75 0 01-1.06-.038zM10 5.25a4.75 4.75 0 100 9.5 4.75 4.75 0 000-9.5z" clip-rule="evenodd" /></svg>
+          <span>Configurações</span>
+        </button>
+      </div>
+    </nav>
+
+    <main class="content-area">
+      <!-- Aba Adicionar Cartão -->
+      <div class="tab-content active" id="add-tab">
+        <div class="content-header">
+          <h2>Adicionar Novo Cartão</h2>
+          <p>Crie um novo cartão para iniciar seus estudos.</p>
+        </div>
+        <form id="add-card-form">
+          <div class="form-group">
+            <label for="question">Pergunta/Palavra:</label>
+            <textarea id="question" placeholder="Ex: 'ephemeral'" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="answer">Resposta:</label>
+            <textarea id="answer" placeholder="Ex: 'lasting for a very short time'" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="hint">Dica (opcional):</label>
+            <textarea id="hint" placeholder="Ex: 'think of a mayfly's life'"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="category">Categoria (opcional):</label>
+            <input type="text" id="category" placeholder="Ex: Inglês, Vocabulário Avançado">
+          </div>
+          <button type="submit" class="btn btn-primary">Adicionar Cartão</button>
+        </form>
+      </div>
+
+      <!-- Aba Gerenciar Cartões -->
+      <div class="tab-content" id="manage-tab">
+        <div class="content-header">
+          <h2>Gerenciar Cartões</h2>
+          <p>Edite, busque e filtre seus cartões de estudo.</p>
+        </div>
+        <div class="search-bar">
+          <input type="text" id="search-cards" placeholder="🔍 Buscar por pergunta ou resposta...">
+          <select id="filter-category">
+            <option value="">Todas as categorias</option>
+          </select>
+        </div>
+        <div class="cards-stats">
+          <div class="stat-item">
+            <span class="stat-number" id="total-cards">0</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="pending-cards">0</span>
+            <span class="stat-label">Pendentes</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="mastered-cards">0</span>
+            <span class="stat-label">Dominados</span>
+          </div>
+        </div>
+        <div class="cards-list" id="cards-list">
+          <!-- Card items will be rendered here by JS -->
+        </div>
+      </div>
+
+      <!-- Aba Configurações -->
+      <div class="tab-content" id="settings-tab">
+        <div class="content-header">
+          <h2>Configurações</h2>
+          <p>Ajuste o comportamento da extensão.</p>
+        </div>
+        
+        <div class="settings-group">
+            <h3>Notificações</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <h4>Ativar Cartões</h4>
+                <p>Mostrar cartões automaticamente.</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="enable-notifications" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <h3>Intervalos</h3>
+            <div class="setting-item-col">
+              <label for="interval-minutes">Intervalo entre cartões</label>
+              <div class="interval-control">
+                <input type="range" id="interval-minutes" min="1" max="60" value="1">
+                <span id="interval-display">1 minuto</span>
+              </div>
+            </div>
+            <div class="setting-item-col">
+              <label for="cards-per-session">Cartões por sessão</label>
+              <div class="interval-control">
+                <input type="range" id="cards-per-session" min="1" max="20" value="1">
+                <span id="session-display">1 cartão</span>
+              </div>
+            </div>
+        </div>
+        
+        <div class="settings-group">
+            <h3>Sessão Atual</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <h4>Próximo cartão em:</h4>
+                <p id="countdown-timer">--:--</p>
+              </div>
+              <button class="btn btn-secondary" id="test-card">Testar Agora</button>
+            </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Gerenciamento de Dados</h3>
+          <div class="settings-actions">
+            <button class="btn btn-secondary" id="import-csv">Importar de CSV</button>
+            <button class="btn btn-secondary" id="export-data">Exportar para JSON</button>
+            <button class="btn btn-secondary" id="import-data">Importar de JSON</button>
+            <button class="btn btn-danger" id="reset-data">Apagar Tudo</button>
+          </div>
+        </div>
+
+        <input type="file" id="import-file" accept=".json" style="display: none;">
+        <input type="file" id="import-csv-file" accept=".csv" style="display: none;">
+      </div>
+    </main>
+  </div>
+
+  <script src="popup.js" type="module"></script>
+</body>
+</html>
